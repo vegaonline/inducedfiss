@@ -5,7 +5,7 @@
 # and initializes the graphic.
 #
 /control/verbose 2
-/run/verbose 2
+/run/verbose 0
 #
 /run/initialize
 #
@@ -33,10 +33,10 @@
 /vis/drawVolume
 #
 # Specify view angle:
-#/vis/viewer/set/viewpointThetaPhi 90. 0.
+/vis/viewer/set/viewpointThetaPhi 45. 45.
 #
 # Specify zoom value:
-/vis/viewer/zoom 1.4
+/vis/viewer/zoom 0.3
 #
 # Specify style (surface or wireframe):
 /vis/viewer/set/style surface
@@ -82,4 +82,5 @@
 /vis/verbose warnings
 #
 # For file-based drivers, use this to create an empty detector view:
-#/vis/viewer/flush
+/vis/viewer/flush
+/run/beamOn 2000

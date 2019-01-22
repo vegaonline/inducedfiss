@@ -24,5 +24,6 @@ void fissActionInitialization::BuildForMaster() const {
 }
 
 void fissActionInitialization::Build() const {
-  
+  fissPrimaryGeneratorAction* primary = new fissPrimaryGeneratorAction();
+  SetUserAction(primary);
 }

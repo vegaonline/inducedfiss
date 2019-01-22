@@ -13,6 +13,7 @@
 
 #include "G4VUserActionInitialization.hh"
 #include "fissDetectorConstruction.hh"
+#include "fissPrimaryGeneratorAction.hh"
 
 class fissDetectorConstruction;
 
