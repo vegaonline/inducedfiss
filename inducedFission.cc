@@ -19,10 +19,10 @@
 #include "G4UImanager.hh"
 #include "Randomize.hh"
 
-#include "DetectorConstruction.hh"
-#include "PhysicsList.hh"
-#include "ActionInitialization.hh"
-#include "SteppingVerbose.hh"
+#include "fissDetectorConstruction.hh"
+
+#include "fissActionInitialization.hh"
+
 
 #include "G4UIExecutive.hh"
 #include "G4VisExecutive.hh"
@@ -43,18 +43,18 @@ int main( int argc, char** argv) {
   runManager->SetNumberOfThreads(nThreads);
 #else
   //my Verbose output class
-  G4VSteppingVerbose::SetInstance(new SteppingVerbose);
+  //G4VSteppingVerbose::SetInstance(new SteppingVerbose);
   G4RunManager* runManager = new G4RunManager;
 #endif
 
 //set mandatory initialization classes
-  DetectorConstruction* det= new DetectorConstruction;
+  fissDetectorConstruction* det= new fissDetectorConstruction;
   runManager->SetUserInitialization(det);
 
-  PhysicsList* phys = new PhysicsList;
-  runManager->SetUserInitialization(phys);
+  //fissPhysicsList* phys = new fissPhysicsList;
+  //runManager->SetUserInitialization(phys);
 
-  runManager->SetUserInitialization(new ActionInitialization(det));
+  runManager->SetUserInitialization(new fissActionInitialization(det));
 
  //initialize visualization
   G4VisManager* visManager = nullptr;

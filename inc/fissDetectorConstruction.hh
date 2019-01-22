@@ -11,7 +11,7 @@
 #ifndef fissDetectorConstruction_h
 #define fissDetectorConstruction_h 1
 
-#incllude "G4VUserDetectorConstruction.hh"
+#include "G4VUserDetectorConstruction.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
 
@@ -61,17 +61,21 @@ private:
   G4double     fTargetLength;                                // Target
   G4double     fTargetRadius;
   G4Material* fTargetMaterial;
+  G4Tubs*      sTarget;
   G4LogicalVolume* fLogicTarget;
 
   G4double     fDetectorLength;                     // Detector
   G4double     fDetectorRadius;
   G4Material* fDetectorMaterial;
+  G4Tubs*      sDetector;
   G4LogicalVolume* fLogicDetector;
 
   G4double fWorldLength;
   G4double fWorldRadius;
   G4Material* fWorldMaterial;
-  G4PhysicalVolume* fPhysiWorld;
+  G4Tubs*      sWorld;
+  G4LogicalVolume* lWorld;
+  G4VPhysicalVolume* fPhysiWorld;
 
   void DefineMaterials();
   G4VPhysicalVolume* ConstructVolumes();
