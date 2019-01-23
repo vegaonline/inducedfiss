@@ -2,7 +2,7 @@
 //*       Code for Fast neutron induced fission fragments     *
 //*                                                           *
 //*      Abhijit Bhattacharyya  :: NPD :: BARC                *
-//*     Jan 22, 2019                                          *
+//*     Jan 23, 2019                                          *
 //*    \file fissRunAction.hh                                *
 //*************************************************************
 

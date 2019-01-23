@@ -20,10 +20,14 @@ fissActionInitialization::~fissActionInitialization() {
 }
 
 void fissActionInitialization::BuildForMaster() const {
-
+  fissRunAction* runAction = new fissRunAction(fDetector, 0);
+  SetUserAction(runAction);
 }
 
 void fissActionInitialization::Build() const {
   fissPrimaryGeneratorAction* primary = new fissPrimaryGeneratorAction();
   SetUserAction(primary);
+
+  fissRunAction* runAction = new fissRunAction(fDetector, primary);
+  SetUserAction(runAction);
 }

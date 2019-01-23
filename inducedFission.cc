@@ -21,7 +21,6 @@
 
 #include "fissDetectorConstruction.hh"
 #include "fissPhysicsList.hh"
-#include "fissPrimaryGeneratorAction.hh"
 #include "fissActionInitialization.hh"
 
 
