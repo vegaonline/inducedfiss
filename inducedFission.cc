@@ -37,8 +37,8 @@ void PrintUsage() {
 int main( int argc, char** argv) {
   G4String macro;
   G4String session;
-  G4int nThreads;
-  
+  //G4int nThreads;
+
   if (argc < 1 || argc > 7){
     PrintUsage();
     return -1;
@@ -48,7 +48,7 @@ int main( int argc, char** argv) {
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
 
 #ifdef G4MULTITHREADED
-  nThreads = G4Threading::G4GetNumberOfCores();
+  G4int nThreads = G4Threading::G4GetNumberOfCores();
 #endif
 
 

@@ -19,9 +19,11 @@ fissDetectorConstruction::fissDetectorConstruction() : G4VUserDetectorConstructi
   fDetectorLength = 15.2*cm;
   fDetectorRadius = 3.8*cm;
 
-  fWorldLength = 1.4 * (fTargetLength + fDetectorLength);
-  fWorldRadius = 1.4 * std::max(fTargetRadius, fDetectorRadius);
+  fDistTargDet = 100.0*cm;
 
+  fWorldLength = 2.0 * (fTargetLength + fDetectorLength + fDistTargDet);
+  fWorldRadius = 1.2 * std::max(fTargetRadius, fDetectorRadius);
+  
   DefineMaterials();
 }
 
@@ -77,23 +79,23 @@ G4VPhysicalVolume* fissDetectorConstruction::ConstructVolumes() {
   G4SolidStore::GetInstance()->Clean();
 
   // Just checking with re-declaration for testing
-  fWorldLength = 1.4 * (fTargetLength + fDetectorLength);
-  fWorldRadius = 1.4 * std::max(fTargetRadius, fDetectorRadius);
+  //fWorldLength = 1.4 * (fTargetLength + fDetectorLength);
+  //fWorldRadius = 1.4 * std::max(fTargetRadius, fDetectorRadius);
 
   // The World
   sWorld = new G4Tubs("World", 0.0, fWorldRadius, 0.5 * fWorldLength, 0.0, twopi);
   lWorld = new G4LogicalVolume(sWorld, fWorldMaterial, "World");
-  fPhysiWorld = new G4PVPlacement(0, G4ThreeVector(), lWorld, "World", 0, false, 0);
+  fPhysiWorld = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0), lWorld, "World", 0, false, 0);
 
   // The TARGET
   sTarget = new G4Tubs("Target", 0.0, fTargetRadius, 0.5 * fTargetLength, 0.0, twopi);
   fLogicTarget = new G4LogicalVolume(sTarget, fTargetMaterial, "Target");
-  new G4PVPlacement(0, G4ThreeVector(), fLogicTarget, "Target", lWorld, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0), fLogicTarget, "Target", lWorld, false, 0);
 
   // The Detector
   sDetector = new G4Tubs("Detector", 0.0, fDetectorRadius, 0.5 * fDetectorLength, 0.0, twopi);
   fLogicDetector = new G4LogicalVolume(sDetector, fDetectorMaterial, "Detector");
-  new G4PVPlacement(0, G4ThreeVector(), fLogicDetector, "Detector", lWorld, false, 0);
+  new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, fDistTargDet), fLogicDetector, "Detector", lWorld, false, 0);
 
   PrintParameters();
   return fPhysiWorld;

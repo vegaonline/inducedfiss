@@ -77,6 +77,7 @@ private:
   G4LogicalVolume* lWorld;
   G4VPhysicalVolume* fPhysiWorld;
 
+  G4double fDistTargDet; // distance between target and detector ~ 1 m 
   void DefineMaterials();
   G4VPhysicalVolume* ConstructVolumes();
 };
