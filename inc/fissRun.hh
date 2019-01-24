@@ -21,7 +21,7 @@
 #include "G4TwoVector.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
-
+#include "G4Run.hh"
 #include "globals.hh"
 #include <fstream>
 #include <map>
@@ -37,7 +37,7 @@ public:
 public:
   void SetPrimary(G4ParticleDefinition* particle, G4double energy);
   void CountProcesses(const G4VProcess* process, G4int iVol);
-  void ParticleCount(G4STring, G4double, G4int);
+  void ParticleCount(G4String, G4double, G4int);
   void AddEdep(G4double, G4double);
 
   virtual void Merge(const G4Run*);

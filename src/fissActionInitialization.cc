@@ -30,4 +30,7 @@ void fissActionInitialization::Build() const {
 
   fissRunAction* runAction = new fissRunAction(fDetector, primary);
   SetUserAction(runAction);
+
+  fissEventAction* fissevent = new fissEventAction();
+  SetUserAction(fissevent);
 }

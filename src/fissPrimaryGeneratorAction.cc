@@ -11,7 +11,7 @@
 #include "fissPrimaryGeneratorAction.hh"
 
 fissPrimaryGeneratorAction::fissPrimaryGeneratorAction (): G4VUserPrimaryGeneratorAction(), fGPS(0), fEnergy(0*MeV)  {
-  fGPS = new G4GeneralParticleSource();
+  fGPS = new G4GeneralParticleSource;
 }
 
 fissPrimaryGeneratorAction::~fissPrimaryGeneratorAction(){

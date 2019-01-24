@@ -14,16 +14,19 @@
 #include "G4UserRunAction.hh"
 #include "fissDetectorConstruction.hh"
 #include "fissPrimaryGeneratorAction.hh"
+#include "fissRun.hh"
 //#include "HistoManager.hh"
-
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
-
 #include "Randomize.hh"
 #include <iomanip>
 #include "globals.hh"
+
+class fissDetectorConstruction;
+class fissRun;
+class fissPrimaryGeneratorAction;
 
 class fissRunAction : public G4UserRunAction {
 public:
@@ -38,6 +41,7 @@ public:
 private:
   fissDetectorConstruction* fDetector;
   fissPrimaryGeneratorAction* fPrimary;
+  fissRun* fRun;
 };
 
 #endif
