@@ -30,6 +30,10 @@
 #include "G4UnitsTable.hh"
 #include "globals.hh"
 
+class G4LogicalVolume;
+class G4Material;
+
+
 class fissDetectorConstruction : public G4VUserDetectorConstruction {
 public:
   fissDetectorConstruction();
@@ -77,7 +81,7 @@ private:
   G4LogicalVolume* lWorld;
   G4VPhysicalVolume* fPhysiWorld;
 
-  G4double fDistTargDet; // distance between target and detector ~ 1 m 
+  G4double fDistTargDet; // distance between target and detector ~ 1 m
   void DefineMaterials();
   G4VPhysicalVolume* ConstructVolumes();
 };
