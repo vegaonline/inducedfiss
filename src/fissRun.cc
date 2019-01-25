@@ -284,7 +284,7 @@ void fissRun::EndOfRun() {
 }
 
 void fissRun::WriteActivity(G4int nevent) {
-  /*
+
   G4ProcessTable *pTable = G4ProcessTable::GetProcessTable();
   G4RadioactiveDecay * rDecay = (G4RadioactiveDecay *)
   pTable->FindProcess("RadioactiveDecay", "GenericIon");
@@ -312,5 +312,5 @@ void fissRun::WriteActivity(G4int nevent) {
     outfile << G4endl;
   }
   outfile.close();
-  */
+  
 }

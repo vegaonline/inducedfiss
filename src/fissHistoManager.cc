@@ -19,7 +19,7 @@ fissHistoManager::~fissHistoManager(){
 }
 
 void fissHistoManager::Book() {
-  G4AnalysisManger* analysis = G4AnalysisManager::Instance();
+  G4AnalysisManager* analysis = G4AnalysisManager::Instance();
   analysis->SetFileName(fFileName);
   analysis->SetVerboseLevel(1);
   analysis->SetActivation(true); // enable inactivation of histos, nTuples

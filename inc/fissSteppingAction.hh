@@ -11,6 +11,13 @@
 #define fissSteppingAction_h 1
 
 #include "G4UserSteppingAction.hh"
+#include "fissDetectorConstruction.hh"
+#include "fissRun.hh"
+#include "fissEventAction.hh"
+#include "fissHistoManager.hh"
+#include "G4RunManager.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4UnitsTable.hh"
 #include "globals.hh"
 
 class fissDetectorConstruction;

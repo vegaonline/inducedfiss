@@ -1,3 +1,8 @@
+#------------------------------------------------------------------------------------------------------------------------------
+# $Id: CMakeLists.txt
+# Code for induced fission
+# Abhijit Bhattacharyya
+#-------------------------------------------------------------------------------------------------------------------------------
 #Setup
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(inducedFission)
@@ -17,5 +22,21 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/inc/*.hh)
 
 add_executable(inducedFission inducedFission.cc ${sources} ${headers})
 target_link_libraries(inducedFission ${Geant4_LIBRARIES})
+
+#-------------------------------------------------------------------------------------------------------------------------
+# copy scripts to build directory
+#--------------------------------------------------------------------------------------------------------------------------
+set(inducedFission_SCRIPTS
+  run.mac
+  vis.mac
+)
+foreach(_script ${inducedFission_SCRIPTS})
+  configure_file(
+    ${PROJECT_SOURCE_DIR}/${_script}
+    ${PROJECT_BINARY_DIR}/${_script}
+    COPYONLY
+  )
+  endforeach()
+
 
 install(TARGETS inducedFission DESTINATION bin)

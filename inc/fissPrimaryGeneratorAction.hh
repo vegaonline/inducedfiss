@@ -13,7 +13,7 @@
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4ParticleGun.hh"
-#include "G4GeneralParticleSource.hh"
+//#include "G4GeneralParticleSource.hh"
 #include "G4Event.hh"
 #include "G4ParticleTable.hh"
 #include "G4IonTable.hh"
@@ -32,7 +32,7 @@ public:
 
 public:
   virtual void GeneratePrimaries(G4Event*);
-  G4GeneralParticleSource* GetParticleGun() { return fGPS; }
+  G4ParticleGun* GetParticleGun() { return fParticleGun; }
   G4double GetEnergy() { return fEnergy; }
   G4double GetMomentum() { return fMomentum; }
 
@@ -40,7 +40,8 @@ public:
   void SetMomentum(G4double value) { fMomentum = value; }
 
 private:
-  G4GeneralParticleSource* fGPS;
+  //G4GeneralParticleSource* fGPS;
+  G4ParticleGun* fParticleGun;
   G4double fEnergy;
   G4double fMomentum;
 };

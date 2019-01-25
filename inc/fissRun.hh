@@ -13,7 +13,8 @@
 
 #include "fissDetectorConstruction.hh"
 #include "fissPrimaryGeneratorAction.hh"
-//#include "fissHistoManager.hh"
+#include "fissHistoManager.hh"
+#include "fissRun.hh"
 
 #include "G4VProcess.hh"
 #include "G4ProcessTable.hh"

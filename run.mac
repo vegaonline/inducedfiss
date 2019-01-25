@@ -8,19 +8,23 @@
 /tracking/verbose 0
 /event/verbose 0
 /run/verbose 0
-/gps/verbose 0
+
 
 /tracking/storeTrajectory 0
 /run/initialize
 
-/gps/particle neutron
-/gps/pos/type Beam # Point
-/gps/pos/shape Circle
-/gps/pos/centre 0. 0. -1. cm
-/gps/pos/radius 10.0 mm
-/gps/direction 0. 0. 1.
-/gps/ang/type beam1d # cos
-/gps/ene/mono 3.0 MeV
-# /gps/ene/min 2.5 MeV
-# /gps/ene/max 7.0 MeV
-/run/beamOn 10
+#/gps/particle neutron
+#/gps/pos/type Beam # Point
+#/gps/pos/shape Circle
+#/gps/position 0.0 0.0 -1.0 cm
+#/gps/pos/centre 0.0 0.0 -1.0 cm
+#/gps/pos/radius 10.0 mm
+#/gps/direction 0 0 +1
+#/gps/ang/type beam1d # cos
+#/gps/ene/type Gauss
+#/gps/ene/mono 3.0 MeV
+#/gps/ene/sigma 0.2 keV
+
+/gun/particle neutron
+/gun/energy 3.0 MeV
+/run/beamOn 50
