@@ -27,4 +27,4 @@
 
 /gun/particle neutron
 /gun/energy 3.0 MeV
-/run/beamOn 50
+/run/beamOn 100

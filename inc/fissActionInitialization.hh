@@ -16,6 +16,8 @@
 #include "fissPrimaryGeneratorAction.hh"
 #include "fissRunAction.hh"
 #include "fissEventAction.hh"
+#include "fissTrackingAction.hh"
+#include "fissSteppingAction.hh"
 
 class fissDetectorConstruction;
 class fissRunAction;

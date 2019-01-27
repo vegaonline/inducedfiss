@@ -25,12 +25,18 @@ void fissActionInitialization::BuildForMaster() const {
 }
 
 void fissActionInitialization::Build() const {
-  fissPrimaryGeneratorAction* primary = new fissPrimaryGeneratorAction();
-  SetUserAction(primary);
+  fissPrimaryGeneratorAction* fissprimary = new fissPrimaryGeneratorAction();
+  SetUserAction(fissprimary);
 
-  fissRunAction* runAction = new fissRunAction(fDetector, primary);
-  SetUserAction(runAction);
+  fissRunAction* fissrunaction = new fissRunAction(fDetector, fissprimary);
+  SetUserAction(fissrunaction);
 
   fissEventAction* fissevent = new fissEventAction();
   SetUserAction(fissevent);
+
+  fissTrackingAction*  fissTrack = new fissTrackingAction(fDetector);
+  SetUserAction(fissTrack);
+
+  fissSteppingAction* fisssteppingaction = new fissSteppingAction(fDetector, fissevent);
+  SetUserAction(fisssteppingaction);
 }
