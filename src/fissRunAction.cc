@@ -11,12 +11,12 @@
 #include "fissRunAction.hh"
 
 fissRunAction::fissRunAction(fissDetectorConstruction* det, fissPrimaryGeneratorAction* fprim)
-  : G4UserRunAction(), fDetector(det), fPrimary(fprim){
-
+  : G4UserRunAction(), fDetector(det), fPrimary(fprim), fHistoManager(0){
+    fHistoManager = new fissHistoManager();
 }
 
 fissRunAction::~fissRunAction() {
-
+  delete fHistoManager;
 }
 
 G4Run* fissRunAction::GenerateRun(){
@@ -33,9 +33,17 @@ void fissRunAction::BeginOfRunAction(const G4Run*) {
     G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
     fRun->SetPrimary(particle, energy);
   }
+
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  if (analysisManager->IsActive()) analysisManager->OpenFile();
 }
 
 void fissRunAction::EndOfRunAction(const G4Run*){
   if (isMaster) fRun->EndOfRun();
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  if (analysisManager-> IsActive()){
+    analysisManager->Write();
+    analysisManager->CloseFile();
+  }
   if (isMaster) G4Random::showEngineStatus();
 }

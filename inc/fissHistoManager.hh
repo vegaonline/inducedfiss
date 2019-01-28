@@ -22,6 +22,6 @@ public:
   ~fissHistoManager();
 private:
   void Book();
-  G4String fFileName;
+  G4String fFileName = "inducedFiss";
 };
 #endif

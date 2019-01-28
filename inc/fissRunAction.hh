@@ -15,7 +15,7 @@
 #include "fissDetectorConstruction.hh"
 #include "fissPrimaryGeneratorAction.hh"
 #include "fissRun.hh"
-//#include "HistoManager.hh"
+#include "fissHistoManager.hh"
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"
@@ -27,6 +27,7 @@
 class fissDetectorConstruction;
 class fissRun;
 class fissPrimaryGeneratorAction;
+class fissHistoManager;
 
 class fissRunAction : public G4UserRunAction {
 public:
@@ -42,6 +43,7 @@ private:
   fissDetectorConstruction* fDetector;
   fissPrimaryGeneratorAction* fPrimary;
   fissRun* fRun;
+  fissHistoManager* fHistoManager;
 };
 
 #endif

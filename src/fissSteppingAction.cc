@@ -10,7 +10,8 @@
 
 #include "fissSteppingAction.hh"
 
-fissSteppingAction::fissSteppingAction(fissDetectorConstruction* det, fissEventAction* event) : G4UserSteppingAction(), fDetector(det), fEventAction(event) {
+fissSteppingAction::fissSteppingAction(fissDetectorConstruction* det, fissEventAction* event)
+: G4UserSteppingAction(), fDetector(det), fEventAction(event) {
 
 }
 
@@ -25,7 +26,7 @@ void fissSteppingAction::UserSteppingAction(const G4Step* aStep){
   // which volume ?
   G4LogicalVolume* lVolume = aStep->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
   G4int iVol = 0;
-  if (lVolume == fDetector->GetLogicTarget())  iVol = 1;
+  if (lVolume == fDetector->GetLogicTarget())    iVol = 1;
   if (lVolume == fDetector->GetLogicDetector())  iVol = 2;
 
   // count processes
@@ -41,9 +42,11 @@ void fissSteppingAction::UserSteppingAction(const G4Step* aStep){
   fEventAction->AddEdep(iVol, edepStep, time, weight);
 
   // fill ntuple id = 2
-  G4int id = 1;
-  analysisManager->FillNtupleDColumn(id, 0, edepStep);
-  analysisManager->FillNtupleDColumn(id, 1, time/s);
-  analysisManager->FillNtupleDColumn(id, 2, weight);
-  analysisManager->AddNtupleRow(id);
+  G4int id = 2;
+  if (analysisManager->IsActive()) {
+    analysisManager->FillNtupleDColumn(id, 0, edepStep);
+    analysisManager->FillNtupleDColumn(id, 1, time/s);
+    analysisManager->FillNtupleDColumn(id, 2, weight);
+    analysisManager->AddNtupleRow(id);
+  }
 }

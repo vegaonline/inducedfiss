@@ -293,6 +293,7 @@ void fissRun::WriteActivity(G4int nevent) {
   //
   if ((rDecay == 0) || (rDecay->IsAnalogueMonteCarlo())) return;
   G4String fileName = G4AnalysisManager::Instance()->GetFileName() + ".activity";
+  G4cout << " \n writing in the Radioactivity table file: " << fileName << G4endl;
   std::ofstream outfile (fileName, std::ios::out );
   std::vector<G4RadioactivityTable*> theTables =  rDecay->GetTheRadioactivityTables();
 
@@ -312,5 +313,4 @@ void fissRun::WriteActivity(G4int nevent) {
     outfile << G4endl;
   }
   outfile.close();
-  
 }

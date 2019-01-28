@@ -25,6 +25,9 @@
 #/gps/ene/mono 3.0 MeV
 #/gps/ene/sigma 0.2 keV
 
+/analysis/setFileName indFiss
+
 /gun/particle neutron
 /gun/energy 3.0 MeV
-/run/beamOn 100
+/gun/position 0.0 0.0 -1.0 cm
+/run/beamOn 100000

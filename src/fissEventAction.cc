@@ -40,14 +40,14 @@ void fissEventAction::EndOfEventAction(const G4Event*) {
 
   if (fEdep1 > 0.0) {   // Pulse Height in Target
       fWeight1 /= fEdep1;
-      analysisManager->FillH1(0, fEdep1, fWeight1);
+      if (analysisManager->IsActive()) analysisManager->FillH1(0, fEdep1, fWeight1);
   }
   if (fEdep2 > 0.0) {   // Pulse Height in Detector
     fWeight2 /= fEdep2;
-    analysisManager->FillH1(1, fEdep2, fWeight2);
+    if (analysisManager->IsActive()) analysisManager->FillH1(1, fEdep2, fWeight2);
   }
 
-  analysisManager->FillH1(2, Etot, Wtot);   // Total
+  if (analysisManager->IsActive()) analysisManager->FillH1(2, Etot, Wtot);   // Total
   const G4double  Threshold1(10*keV), Threshold2(10*keV); // Threshold for target & detector CHECK ?????
 
   // COINCIDENCE and anti-COINCIDENCE OK ?
@@ -60,4 +60,5 @@ void fissEventAction::EndOfEventAction(const G4Event*) {
 
   fissRun* fissrun = static_cast<fissRun*> (G4RunManager::GetRunManager()->GetNonConstCurrentRun());
   fissrun->AddEdep(fEdep1, fEdep2);
+
 }
