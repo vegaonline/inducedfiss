@@ -38,6 +38,16 @@ void plotHisto(){
       }
    }
 
+
+   // Introduce some useful variables for limiting histogram
+   int pid;
+   double energy, time, weight;
+   const int TimeCnt = 20;
+   Float_t fTimebin[TimeCnt];
+   fTimebin[0] = 0.0;
+   fTimebin[1] = 0.5;
+   for (int i = 2; i < TimeCnt; i++) fTimebin[i] = fTimebin[i-1] * 10.0;
+   
    // Loading histograms
    TH1D*  H10 = (TH1D*) subdir[0]->Get("H10");  // energy deposit in MeV in Target
    TH1D*  H11 = (TH1D*) subdir[0]->Get("H11");  // energy deposit in MeV in Detector
@@ -53,7 +63,25 @@ void plotHisto(){
    TNtuple* t1 = (TNtuple*) subdir[1]->Get("t1"); // Emitted Particles Data
    TNtuple* t2 = (TNtuple*) subdir[1]->Get("t2"); // RadioIsotope Data
    TNtuple* t3 = (TNtuple*) subdir[1]->Get("t3"); // Energy depositions Data
+
+   // Declare new histograms from tuples
+   TH1F* t1EnergyTime = new TH1F("T1EnergyTime", "T1 Energy vs Time ", (TimeCnt - 1), fTimebin);
+
+
+
+   // Getting data from Tuples
    
+   for (int irow = 0; irow < t1->GetEntries(); ++irow) {
+     t1->SetBranchAddress("PID",    &pid);    t1->GetEntry(irow);
+     t1->SetBranchAddress("Energy", &energy); t1->GetEntry(irow);
+     t1->SetBranchAddress("Time",   &time);   t1->GetEntry(irow);
+     t1->SetBranchAddress("Weight", &weight); t1->GetEntry(irow);
+
+     t1EnergyTime->Fill(time, energy);
+     TAxis* xAxist1 = t1EnergyTime->GetXaxis();
+     Int_t binXt1   = xAxist1->FindBin(time);
+     
+   }
 
    // Plotting Routine for histograms
 
@@ -157,7 +185,17 @@ void plotHisto(){
    c18->Print("Decay_Emission_Spec_0_0MeV1.png");
    c18->Close();
    
-   
+
+   //H21
+   TCanvas* c21 = new TCanvas("H21", "", 900, 700);
+   gStyle->SetHistLineWidth(3);
+   gStyle->SetTitleX(0.2);
+   gPad->SetLogy();
+   gPad->SetLogx();
+   t1EnergyTime->Draw("SAME");
+   c21->Print("t1 Time vs Energy.png");
+   c21->Close();
+
 
    
    
