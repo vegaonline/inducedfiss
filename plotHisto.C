@@ -40,8 +40,7 @@ void plotHisto(){
 
 
    // Introduce some useful variables for limiting histogram
-   int pid;
-   double energy, time, weight;
+   double pid, energy, time, weight;
    const int TimeCnt = 20;
    Float_t fTimebin[TimeCnt];
    fTimebin[0] = 0.0;
@@ -59,34 +58,65 @@ void plotHisto(){
    TH1D*  H17 = (TH1D*) subdir[0]->Get("H17");  // Decay emission spectrum (0-1 MeV)
    TH1D*  H18 = (TH1D*) subdir[0]->Get("H18");  // Decay emission spectrum (0-0.1 MeV)
 
-   // Loading Tuples
-   TNtuple* t1 = (TNtuple*) subdir[1]->Get("t1"); // Emitted Particles Data
-   TNtuple* t2 = (TNtuple*) subdir[1]->Get("t2"); // RadioIsotope Data
-   TNtuple* t3 = (TNtuple*) subdir[1]->Get("t3"); // Energy depositions Data
+   // Declaring Tuples from TREE
+   TTreeReader t1Tree("T1", subdir[1]);
+   Long64_t t1Len = t1Tree.GetEntries(1);
+   TTreeReaderValue<Double_t> pidT1(t1Tree, "PID");
+   TTreeReaderValue<Double_t> energyT1(t1Tree, "Energy");
+   TTreeReaderValue<Double_t> timeT1(t1Tree, "Time");
+   TTreeReaderValue<Double_t> weightT1(t1Tree, "Weight");
+   
+   TTreeReader t2Tree("T2", subdir[1]);
+   Long64_t t2Len = t2Tree.GetEntries(1);
+   TTreeReaderValue<Float_t>pidT2(t2Tree, "PID");
+   TTreeReaderValue<Float_t>timeT2(t2Tree, "Time");
+   TTreeReaderValue<Float_t>weightT2(t2Tree, "Weight");
+   
+   TTreeReader t3Tree("T3", subdir[1]);
+   Long64_t t3Len = t3Tree.GetEntries(1);   
+   TTreeReaderValue<Float_t>energyT3(t3Tree, "Energy");
+   TTreeReaderValue<Float_t>timeT3(t3Tree, "Time");
+   TTreeReaderValue<Float_t>weightT3(t3Tree, "Weight");
+
+   TTreeReader rdTree("RDecayProducts", subdir[1]);
+   Long64_t rdLen = rdTree.GetEntries(1);   
+   TTreeReaderValue<Float_t>pidRD(rdTree, "PID");
+   TTreeReaderValue<Float_t>ZRD(rdTree, "Z");
+   TTreeReaderValue<Float_t>ARD(rdTree, "A");
+   TTreeReaderValue<Float_t>energyRD(rdTree, "Energy");
+   TTreeReaderValue<Float_t>timeRD(rdTree, "Time");
+   TTreeReaderValue<Float_t>weightRD(rdTree, "Weight");
+
 
    // Declare new histograms from tuples
-   TH1F* t1EnergyTime = new TH1F("T1EnergyTime", "T1 Energy vs Time ", (TimeCnt - 1), fTimebin);
+   TH2F* t1PIDEnergy = new TH2F("PidEnergyT1", " PID vs Energy", 100, 1, 30, 200, 0, 10.0);
+   TH2F* t1TimeEnergy = new TH2F("TimeEnergyT1", " Time vs Energy", 100, 0, 40, 200, 0, 10.0);
+   TH1F* t1PID = new TH1F("T1PID", "T1 PID ", 100, 1, 40);
+   TH1F* t1Energy = new TH1F("T1Energy", "T1 Energy ", 100, 0, 3.0);
 
-
+   TH2F* rdMassEnergy = new TH2F("MassEnergyRD", " Mass vs Energy", 100, 0, 110, 200, 0, 10.0);
 
    // Getting data from Tuples
-   
-   for (int irow = 0; irow < t1->GetEntries(); ++irow) {
-     t1->SetBranchAddress("PID",    &pid);    t1->GetEntry(irow);
-     t1->SetBranchAddress("Energy", &energy); t1->GetEntry(irow);
-     t1->SetBranchAddress("Time",   &time);   t1->GetEntry(irow);
-     t1->SetBranchAddress("Weight", &weight); t1->GetEntry(irow);
-
-     t1EnergyTime->Fill(time, energy);
-     TAxis* xAxist1 = t1EnergyTime->GetXaxis();
-     Int_t binXt1   = xAxist1->FindBin(time);
-     
+   while (t1Tree.Next()){              // T1
+     t1PID->Fill(*pidT1);
+     t1Energy->Fill(*energyT1);
+     t1TimeEnergy->Fill(*timeT1, *energyT1);
+     t1PIDEnergy->Fill(*pidT1, *energyT1);
    }
 
+   while (rdTree.Next()){              // RD
+     rdMassEnergy->Fill(*ARD, *energyRD);
+   }
+
+   
+   
+   
+   
    // Plotting Routine for histograms
 
    // H10 edep_Target
    TCanvas* c10 = new TCanvas("H10", "Energy deposit (MeV) in Target", 900, 700);
+   
    gStyle->SetHistLineWidth(3);
    gStyle->SetTitleX(0.2);
    gPad->SetLogy();
@@ -187,20 +217,60 @@ void plotHisto(){
    
 
    //H21
-   TCanvas* c21 = new TCanvas("H21", "", 900, 700);
+   TCanvas* ct1pid = new TCanvas("H21", "", 900, 700);
+   ct1pid->Divide(2,2);
+   ct1pid->cd(1);
    gStyle->SetHistLineWidth(3);
    gStyle->SetTitleX(0.2);
    gPad->SetLogy();
    gPad->SetLogx();
-   t1EnergyTime->Draw("SAME");
-   c21->Print("t1 Time vs Energy.png");
-   c21->Close();
+   t1PIDEnergy->SetMarkerStyle(kFullCircle);
+   t1PIDEnergy->SetMarkerSize(0.6);
+   t1PIDEnergy->SetMarkerColor(kBlue);
+   t1PIDEnergy->SetStats(kFALSE);
+   t1PIDEnergy->GetXaxis()->SetTitle("PID");
+   t1PIDEnergy->GetYaxis()->SetTitle("Energy/MeV");
+   t1PIDEnergy->Draw("SAME P");
+   ct1pid->cd(2);
+   t1PID->Draw("SAME");
+   ct1pid->cd(3);
+   t1Energy->Draw("SAME");
+   ct1pid->cd(4);
+   t1TimeEnergy->SetMarkerStyle(kFullCircle);
+   t1TimeEnergy->SetMarkerSize(0.6);
+   t1TimeEnergy->SetMarkerColor(kBlue);
+   t1TimeEnergy->SetStats(kFALSE);   
+   t1TimeEnergy->GetXaxis()->SetTitle("Time");
+   t1TimeEnergy->GetXaxis()->SetTitleSize(0.06);
+   t1TimeEnergy->GetXaxis()->SetTitleOffset(1.2);
+   t1TimeEnergy->GetYaxis()->SetTitle("Energy");
+   t1TimeEnergy->GetYaxis()->SetTitleOffset(1.2);
+   t1TimeEnergy->Draw("SAME P");
+   ct1pid->Print("PID_vs_Energy.png");
+   ct1pid->Close();
 
+
+    //H22
+   TCanvas* crdmassen = new TCanvas("H22", "", 900, 700);
+   gStyle->SetHistLineWidth(3);
+   gStyle->SetTitleX(0.2);
+   gPad->SetLogy();
+   // gPad->SetLogx();
+   rdMassEnergy->SetMarkerStyle(kFullCircle);
+   rdMassEnergy->SetMarkerSize(0.6);
+   rdMassEnergy->SetMarkerColor(kBlue);
+   rdMassEnergy->SetStats(kFALSE);
+   rdMassEnergy->GetXaxis()->SetTitle("PID");
+   rdMassEnergy->GetYaxis()->SetTitle("Energy/MeV");
+   rdMassEnergy->Draw("SAME P");
+
+   crdmassen->Print("Mass_vs_Energy_RD.png");
+   crdmassen->Close();
 
    
    
-   subdir[0]->ls();
-   subdir[1]->ls();
+   //    subdir[0]->ls();
+   // subdir[1]->ls();
 
    // Closing the file
    tf->Close();

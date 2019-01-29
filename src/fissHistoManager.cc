@@ -21,7 +21,7 @@ fissHistoManager::~fissHistoManager(){
 void fissHistoManager::Book() {
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
   analysisManager->SetNtupleMerging(true, 0, false); // row-wise saving mode
-  analysisManager->SetVerboseLevel(1);
+  analysisManager->SetVerboseLevel(0);
   analysisManager->SetFileName(fFileName);
   analysisManager->SetVerboseLevel(1);
   analysisManager->SetActivation(true); // enable inactivation of histos, nTuples
