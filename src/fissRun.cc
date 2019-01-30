@@ -82,9 +82,9 @@ void fissRun::ParticleCount(G4String name, G4double Ekin, G4int iVol) {
 
 void fissRun::AddEdep(G4double edep1, G4double edep2) {
   fEdepTarget1 += edep1;
-  fEdepDetect2 += edep1 * edep1;
+  fEdepDetect2 += (edep1 * edep1);
   fEdepDetect1 += edep2;
-  fEdepDetect2 += edep2 * edep2;
+  fEdepDetect2 += (edep2 * edep2);
 }
 
 void fissRun::Merge(const G4Run* thisRun){
@@ -123,8 +123,7 @@ void fissRun::Merge(const G4Run* thisRun){
     const ParticleData& localData = itc->second;
     if ( fParticleDataMap1.find(name) == fParticleDataMap1.end()) {
       fParticleDataMap1[name] = ParticleData(localData.fCount, localData.fEmean, localData.fEmin, localData.fEmax);
-    }
-    else {
+    } else {
       ParticleData& data = fParticleDataMap1[name];
       data.fCount += localData.fCount;
       data.fEmean += localData.fEmean;
@@ -141,8 +140,7 @@ void fissRun::Merge(const G4Run* thisRun){
     const ParticleData& localData = itd->second;
     if ( fParticleDataMap2.find(name) == fParticleDataMap2.end()) {
       fParticleDataMap2[name] = ParticleData(localData.fCount, localData.fEmean, localData.fEmin, localData.fEmax);
-    }
-    else {
+    } else {
       ParticleData& data = fParticleDataMap2[name];
       data.fCount += localData.fCount;
       data.fEmean += localData.fEmean;
@@ -184,8 +182,7 @@ void fissRun::EndOfRun() {
   fEdepTarget1 /= TotNumberOFevents;
   fEdepTarget2 /= TotNumberOFevents;
   G4double rmsEdep = fEdepTarget2 - fEdepTarget1 * fEdepTarget1;
-  if (rmsEdep>0.) rmsEdep = std::sqrt(rmsEdep);
-  else            rmsEdep = 0.;
+  rmsEdep = (rmsEdep > 0.0) ? std::sqrt(rmsEdep) : 0.0;
 
   G4cout << "\n Mean energy deposit in target,   in time window = "
          << G4BestUnit(fEdepTarget1,"Energy") << ";  rms = "
@@ -197,8 +194,7 @@ void fissRun::EndOfRun() {
   fEdepDetect1 /= TotNumberOFevents;
   fEdepDetect2 /= TotNumberOFevents;
   rmsEdep = fEdepDetect2 - fEdepDetect1 * fEdepDetect1;
-  if (rmsEdep > 0.0) rmsEdep = std::sqrt(rmsEdep);
-  else               rmsEdep = 0.;
+  rmsEdep = (rmsEdep > 0.0) ? std::sqrt(rmsEdep) : 0.0;
 
   G4cout << " Mean energy deposit in detector, in time window = "
          << G4BestUnit(fEdepDetect1,"Energy") << ";  rms = "
@@ -209,11 +205,12 @@ void fissRun::EndOfRun() {
   //
   G4cout << "\n Process calls frequency in target :" << G4endl;
   G4int index = 0;
+  G4String space;
   std::map<G4String,G4int>::iterator it1;
   for (it1 = fProcCounter1.begin(); it1 != fProcCounter1.end(); ++it1) {
     G4String procName = it1->first;
     G4int    count    = it1->second;
-    G4String space = " "; if (++index%3 == 0) space = "\n";
+    space = (++index%3 == 0) ? "\n" : " ";
     G4cout << " " << std::setw(20) << procName << "="<< std::setw(7) << count << space;
   }
   G4cout << G4endl;
@@ -226,7 +223,7 @@ void fissRun::EndOfRun() {
   for (it2 = fProcCounter2.begin(); it2 != fProcCounter2.end(); ++it2) {
     G4String procName = it2->first;
     G4int    count    = it2->second;
-    G4String space = " "; if (++index%3 == 0) space = "\n";
+    space = (++index%3 == 0) ? "\n" : " ";
     G4cout << " " << std::setw(20) << procName << "="<< std::setw(7) << count << space;
   }
   G4cout << G4endl;

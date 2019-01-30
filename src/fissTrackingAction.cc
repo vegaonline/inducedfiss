@@ -19,7 +19,6 @@ fissTrackingAction::~fissTrackingAction(){
 
 }
 
-
 void fissTrackingAction::PreUserTrackingAction(const G4Track* track) {
   fissRun* run =  static_cast<fissRun*>(G4RunManager::GetRunManager()->GetNonConstCurrentRun());
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
