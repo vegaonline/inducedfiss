@@ -71,8 +71,6 @@ int main( int argc, char** argv) {
   auto runManager = new G4MTRunManager;
   if (nThreads > 0) runManager->SetNumberOfThreads(nThreads);
 #else
-  //my Verbose output class
-  //G4VSteppingVerbose::SetInstance(new SteppingVerbose);
   auto runManager = new G4RunManager;
 #endif
 
